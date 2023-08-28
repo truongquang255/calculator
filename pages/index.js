@@ -1,55 +1,153 @@
 import React, { useState } from "react";
-import { foods } from "../Data/data";
-import Food from "../components/Food";
-export default function index() {
-  const perPage = 20;
-  const [page, setPage] = useState(1);
 
-  function PagingButtons(total, perPage) {
-    const output = [];
-    for (let i = 1; i <= Math.ceil(total / perPage); i++) {
-      output.push(
-        <li
-          key={i}
-          className={`hover:bg-orange-400 hover:text-white p-2 cursor-pointer  ${
-            page == i ? "bg-orange-400 text-white" : ""
-          } `}
-          onClick={() => {
-            setPage(i);
-          }}
-        >
-          {i}
-        </li>
-      );
-    }
-    return output;
-  }
+export default function MayTinh() {
+  const keys = [
+    {
+      label: "1",
+      onClick: () => {
+        setPhepTinh(phepTinh + "1");
+      },
+    },
+    {
+      label: "2",
+      onClick: () => {
+        setPhepTinh(phepTinh + "2");
+      },
+    },
+    {
+      label: "3",
+      onClick: () => {
+        setPhepTinh(phepTinh + "3");
+      },
+    },
+    {
+      label: "DEL",
+      onClick: () => {
+        setPhepTinh(phepTinh.slice(0, -1));
+      },
+    },
+    {
+      label: "4",
+      onClick: () => {
+        setPhepTinh(phepTinh + "4");
+      },
+    },
+    {
+      label: "5",
+      onClick: () => {
+        setPhepTinh(phepTinh + "5");
+      },
+    },
+    {
+      label: "6",
+      onClick: () => {
+        setPhepTinh(phepTinh + "6");
+      },
+    },
+    {
+      label: "+",
+      onClick: () => {
+        setPhepTinh(phepTinh + "+");
+      },
+    },
+    {
+      label: "7",
+      onClick: () => {
+        setPhepTinh(phepTinh + "7");
+      },
+    },
+    {
+      label: "8",
+      onClick: () => {
+        setPhepTinh(phepTinh + "8");
+      },
+    },
+    {
+      label: "9",
+      onClick: () => {
+        setPhepTinh(phepTinh + "9");
+      },
+    },
+    {
+      label: "-",
+      onClick: () => {
+        setPhepTinh(phepTinh + "-");
+      },
+    },
+    {
+      label: ".",
+      onClick: () => {
+        setPhepTinh(phepTinh + ".");
+      },
+    },
+    {
+      label: "0",
+      onClick: () => {
+        setPhepTinh(phepTinh + "0");
+      },
+    },
+    {
+      label: ":",
+      onClick: () => {
+        setPhepTinh(phepTinh + ":");
+      },
+    },
+    {
+      label: "x",
+      onClick: () => {
+        setPhepTinh(phepTinh + "x");
+      },
+    },
+    {
+      label: "Reset",
+      onClick: () => {
+        setPhepTinh("");
+      },
+      col: 2,
+    },
+    {
+      label: "=",
+      onClick: () => {
+        setHienThiKetQua(true);
+      },
+      col: 2,
+    },
+  ];
+
+
+  const [phepTinh, setPhepTinh] = useState("");
+  const [hienThiKetQua, setHienThiKetQua] = useState(false);
 
   return (
-    <div className=" flex flex-col items-center justify-center">
-      <div className="w-[1200px] container gap-4 grid grid-cols-5">
-        {foods.slice((page - 1) * perPage, perPage * page).map((food) => {
-          return <Food key={food.id} food={food}></Food>;
-        })}
+    <div className="flex justify-center mx-auto p-10 w-screen h-screen bg-gradient-to-r from-green-300 via-blue-400 to-purple-500">
+      <div className="w-96">
+      <div className=" h-20 my-4 text-right flex justify-end items-center px-2 font-semibold text-xl border rounded ">
+        {phepTinh} =
+        <br></br>
+        {hienThiKetQua && (
+          <> {hamTinhToan(phepTinh.replace(/x/g, "*").replace(/:/g, "/"))}</>
+        )}
       </div>
-      <div>
-        <ul className="flex gap-4">
-          <li
-            className={`p-2 cursor-pointer `}
-            onClick={() => {
-              setPage(Math.max(page - 1, 1));
-            }}
-          >{`<`}</li>
-
-          {PagingButtons(foods.length, perPage)}
-          <li
-            className={`p-2 cursor-pointer `}
-            onClick={() => {
-              setPage(Math.min(Math.ceil(foods.length / perPage), page + 1));
-            }}
-          >{`>`}</li>
-        </ul>
+      <div className="grid grid-cols-4 gap-2">
+        {keys.map((item, key) => (
+          <div
+            key={key}
+            onClick={item.onClick}
+            className={`px-4 py-2 font-semibold text-lg border rounded flex items-center justify-center col-span-${item.col}`}
+          >
+            {item.label}
+          </div>
+        ))}
+      </div>
       </div>
     </div>
   );
+}
+
+function hamTinhToan(fn) {
+  try {
+    return new Function("return " + fn)();
+  } catch (error) {
+    return "";
+  }
 }
